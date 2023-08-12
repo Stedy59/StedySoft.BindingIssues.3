@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+	x:Class="StedySoft.BindingIssues.Views.MainPage"
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:colors="clr-namespace:StedySoft.Maui.Framework;assembly=StedySoft.BindingIssues"
+	xmlns:fonts="clr-namespace:StedySoft.Maui.Framework;assembly=StedySoft.BindingIssues"
+	xmlns:models="clr-namespace:StedySoft.BindingIssues"
+	xmlns:settings="clr-namespace:StedySoft.Maui.Framework"
+	x:Name="_parent"
+	Title="StedySoft BindingIssues">
+
+	<ContentPage.Content>
+
+		<ScrollView>
+
+			<VerticalStackLayout>
+
+				<Border
+					Style="{DynamicResource FrameStyle}"
+					Margin="10,10,10,5">
+					<VerticalStackLayout
+						Spacing="10"
+						Style="{DynamicResource InnerStackLayout}">
+						<Button
+							Text="Create Label [bound values AND set text during creation]"
+							Clicked="CreateLabelWithTextClicked"/>
+						<Button
+							Text="Create Label [bound values]"
+							Clicked="CreateLabelNoTextClicked"/>
+						<Button
+							Text="Modify Bound Text Value"
+							Clicked="OnButtonModifyWeekDayClicked"/>
+						<Button
+							Text="Modify Bound Text Color"
+							Clicked="OnButtonModifyTextColorClicked"/>
+					</VerticalStackLayout>
+				</Border>
+				<Border
+					Style="{DynamicResource FrameStyle}"
+					Margin="10,10,10,5">
+					<VerticalStackLayout
+						x:Name="LabelHolder"
+						Spacing="5"
+						Style="{DynamicResource InnerStackLayout}">
+						<Label
+							Grid.Column="0"
+							Margin="0,0,5,0"
+							Text="Created Labels:"/>
+
+
+					</VerticalStackLayout>
+				</Border>
+
+				<Border
+					Style="{DynamicResource FrameStyle}"
+					Margin="10,5">
+					<Grid
+						ColumnDefinitions="auto,*,auto">
+						<Label
+							Grid.Column="0"
+							Margin="0,0,5,0"
+							Text="DarkMode:"/>
+						<Label
+							Grid.Column="1"
+							TextColor="{colors:Color AccentColor}"
+							Text="{settings:SharedSettings DarkMode, Converter={StaticResource BoolToStringConverter}}"/>
+						<Switch
+							Grid.Column="2"
+							IsToggled="{settings:SharedSettings DarkMode, Mode=TwoWay}"/>
+					</Grid>
+				</Border>
+
+				<Border
+					Style="{DynamicResource FrameStyle}"
+					Margin="10,5">
+					<Grid
+						ColumnDefinitions="auto,*,auto">
+						<Label
+							Grid.Column="0"
+							Margin="0,0,5,0"
+							Text="Use Shadows:"/>
+						<Label
+							Grid.Column="1"
+							TextColor="{colors:Color AccentColor}"
+							Text="{settings:SharedSettings UseShadows, Converter={StaticResource BoolToStringConverter}}"/>
+						<Switch
+							Grid.Column="2"
+							IsToggled="{settings:SharedSettings UseShadows, Mode=TwoWay}"/>
+					</Grid>
+				</Border>
+
+				<Border
+					Style="{DynamicResource FrameStyle}"
+					Margin="10,5,10,10">
+					<VerticalStackLayout
+						Style="{DynamicResource InnerStackLayout}">
+						<Label
+							Text="Font:"/>
+						<Border>
+							<CollectionView
+								x:Name="fontsCollectionView"
+								BackgroundColor="Transparent"
+								SelectionMode="Single"
+								SelectionChanged="FontSelectionChanged">
+								<CollectionView.ItemsLayout>
+									<GridItemsLayout
+										HorizontalItemSpacing="0"
+										Orientation="Vertical"
+										Span="1"
+										VerticalItemSpacing="0"/>
+								</CollectionView.ItemsLayout>
+								<CollectionView.ItemTemplate>
+									<DataTemplate>
+										<Grid>
+											<Label
+												x:DataType="models:FontItem"
+												Padding="5"
+												Text="{Binding Name}"
+												TextColor="{colors:Color TextColor}"
+												FontFamily="{Binding FontFamily}"
+												FontSize="16"
+												Shadow="{StaticResource BaseShadow}"/>
+										</Grid>
+									</DataTemplate>
+								</CollectionView.ItemTemplate>
+							</CollectionView>
+						</Border>
+					</VerticalStackLayout>
+				</Border>
+
+			</VerticalStackLayout>
+
+		</ScrollView>
+
+	</ContentPage.Content>
+</ContentPage>
